@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 struct Node {
 	int data;
 	struct Node* next;
@@ -26,12 +27,14 @@ int getCount(struct Node* head)
     struct Node* current = head;  // Initialize current
     while (current != NULL)
     {
+        if(current->next == NULL)
+		return count;
+	current = current->next;
         count++;
-        current = current->next;
     }
     return count;
 }
-
+/*
 int GetNth(struct Node* head, int index)
 {
 
@@ -48,34 +51,100 @@ int GetNth(struct Node* head, int index)
         current = current->next;
     }
 
-    /* if we get to this line,
+       if we get to this line,
        the caller was asking
        for a non-existent element
-       so we assert fail */
-    assert(0);
+       so we assert fail 
+   // assert(0);
+   exit(1);
 }
 
+*/
 
-int add(struct Node a, struct Node b){
+int GetNth(struct Node* a, int i){
+         struct Node* now;
+         int count = 0;
+         now = a;
+         for(;now != NULL; count++){
+                 if(count == i){
+                 return now->data;
+                 }
+                 now = now->next;
+         }
+         fprintf(stderr,"Over the limit");
+         return 1;
+ }
+int max(int x, int y){
+	if (x >=y)
+		return x;
+	else
+		return y;
+}
+
+int min(int x, int y){
+	if (x<=y)
+		return x;
+	else
+		return y;
+}
+
+void frre(struct Node* begin){
+         struct Node* now= begin ;
+         while(now != NULL && begin->next !=NULL){
+                 now = begin->next;
+                 free(begin);
+                 begin=now;
+         }
+ }
+
+struct Node* add(struct Node* a, struct Node* b){
 	int len_a = getCount(a);
 	int len_b = getCount(b);
-	struct Node* sum = NULL;
+	struct Node* c = NULL;
 
 	int i = 0;
-	push(&c, (GetNth(a, getCount(a)--)+ GetNth(b, getCount(b)--))% 1000);
-
-	if(i<=min(getCount(a), getCount(b))){
-		int car = (GetNth(a, getCount(a)-1-i)+GetNth(b, getCount(b)-1-i))/1000;
-		push(&c, (GetNth(a, getCount(a)-2-i)+ getCount(b)-2-i)%1000 + car);
-		i += 1;
-	}elseif(){
-		push(&c, )
-
-	}
+	int car=0;
+	push(&c, (GetNth(a, getCount(a)-1)+ GetNth(b, getCount(b)-1))% 1000);
+	car = (GetNth(a, getCount(a)-1)+GetNth(b, getCount(b)-1))/1000;
 	
+	for (; i < max(getCount(a), getCount(b)); i++){
+		if(i < min(getCount(a), getCount(b))){
+			push(&c, ((GetNth(a, getCount(a)-2-i)+ getCount(b)-2-i)%1000 + car)%1000);
+			car = ((GetNth(a, getCount(a)-2-i)+GetNth(b, getCount(b)-2-i))+car)/1000;
+		}else if(getCount(a)<= i < getCount(b)){
+			push(&c, ((GetNth(b, getCount(b)-2-i)+car)%1000));
+			car = ((GetNth(b, getCount(b)-2-i)+car)/1000);
+		}else{
+			push(&c, ((GetNth(a, getCount(a)-2-i)+car)%1000));
+			car = ((GetNth(a, getCount(a)-2-i)+car)/1000);
+		}
+	push(&c, car);
+	}
+	return c;
 }
 int main(void){
-	
+	struct Node* p;
+	push(&p, 555);
+	push(&p, 465);
+	push(&p, 564);
+	push(&p, 597);
+	struct Node* q;	
+	push(&q, 295);
+	push(&q, 565);
+	push(&q, 581);
+	struct Node *r = add(p, q);
+
+	printf("%d/n", getCount(r));
+
+	printf("%d/n", GetNth(r, 0));
+	printf("%d/n", GetNth(r, 1));
+	printf("%d/n", GetNth(r, 2));
+	printf("%d/n", GetNth(r, 3));
+	printf("%d/n", GetNth(r, 4));
+
+
+	frre(p);
+	frre(q);
 	return 0;
 }
 
