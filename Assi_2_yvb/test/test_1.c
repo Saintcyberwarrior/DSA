@@ -71,7 +71,7 @@ int GetNth(struct Node* head, int index)
 
 int GetNth(struct Node* a, int i){
          struct Node* now;
-         int count = 0;
+         int count = 1;
          now = a;
          for(;now != NULL; count++){
                  if(count == i){
@@ -105,6 +105,8 @@ void frre(struct Node* begin){
          }
  }
 
+
+/*
 struct Node* add(struct Node* a, struct Node* b){
 	int len_a = getCount(a);
 	int len_b = getCount(b);
@@ -132,6 +134,35 @@ struct Node* add(struct Node* a, struct Node* b){
 	push(&c, car);
 	return c;
 }
+
+
+*/
+struct Node* add(struct Node* a, struct Node* b){
+	int len_a = getCount(a);
+	int len_b = getCount(b);
+	struct Node* c = NULL;
+
+	int i=0;
+	int car = 0;
+
+	for(; i <= max(len_a, len_b); i++){
+		if(i <= min(len_a, len_b)){
+			push(&c, (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)%1000);
+			car = (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)/1000;
+		}else{
+			if(len_a < i && i < len_b){
+				push(&c, (GetNth(b, len_b-i) + car)%1000);
+				car = (GetNth(b, len_b-i) + car)/1000;
+			}else{
+				push(&c, (GetNth(a, len_a-i) + car)%1000);
+				car = (GetNth(a, len_a-i) + car)/1000;
+			}
+		}
+	}
+	push(&c, car);
+	return c;
+}
+
 int main(void){
 	printf("1\n");
 	struct Node* p = NULL;
