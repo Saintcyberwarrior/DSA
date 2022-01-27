@@ -124,14 +124,14 @@ struct Node* add(struct Node* a, struct Node* b){
 }
 int main(void){
 	struct Node* p;
-	push(&p, 555);
-	push(&p, 465);
-	push(&p, 564);
-	push(&p, 597);
+	push(p, 555);
+	push(p, 465);
+	push(p, 564);
+	push(p, 597);
 	struct Node* q;	
-	push(&q, 295);
-	push(&q, 565);
-	push(&q, 581);
+	push(q, 295);
+	push(q, 565);
+	push(q, 581);
 	struct Node *r = add(p, q);
 
 	printf("%d/n", getCount(r));
