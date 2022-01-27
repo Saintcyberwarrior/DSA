@@ -112,20 +112,20 @@ struct Node* add(struct Node* a, struct Node* b){
 
 	int i = 0;
 	int car=0;
-	push(&c, (GetNth(a, getCount(a)-1)+ GetNth(b, getCount(b)-1))% 1000);
-	car = (GetNth(a, getCount(a)-1)+GetNth(b, getCount(b)-1))/1000;
+	push(&c, (GetNth(a, len_a-1)+ GetNth(b, getCount(b)-1))% 1000);
+	car = (GetNth(a, len_a-1)+GetNth(b, getCount(b)-1))/1000;
 
-	for (; i < max(getCount(a), getCount(b)); i++){
-		if(i < min(getCount(a), getCount(b))-1){ //this might be wrong
-			push(&c, ((GetNth(a, getCount(a)-2-i)+ GetNth(b,getCount(b)-2-i)) + car)%1000);
-			car = ((GetNth(a, getCount(a)-2-i)+GetNth(b, getCount(b)-2-i))+car)/1000;
+	for (; i < max(len_a, getCount(b)); i++){
+		if(i < min(len_a, getCount(b))-1){ //this might be wrong
+			push(&c, ((GetNth(a, len_a-2-i)+ GetNth(b,getCount(b)-2-i)) + car)%1000);
+			car = ((GetNth(a, len_a-2-i)+GetNth(b, getCount(b)-2-i))+car)/1000;
 		}else {
-			if(getCount(a)<= i && i < getCount(b)){
+			if(len_a<= i && i < getCount(b)){
 				push(&c, ((GetNth(b, getCount(b)-1-i)+car)%1000));
 				car = ((GetNth(b, getCount(b)-1-i)+car)/1000);
 			}else{
-				push(&c, ((GetNth(a, getCount(a)-1-i)+car)%1000));
-				car = ((GetNth(a, getCount(a)-1-i)+car)/1000);
+				push(&c, ((GetNth(a, len_a-1-i)+car)%1000));
+				car = ((GetNth(a, len_a-1-i)+car)/1000);
 			}
 		}
 	}
