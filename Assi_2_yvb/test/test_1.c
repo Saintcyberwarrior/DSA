@@ -5,21 +5,34 @@ struct Node {
 	struct Node* next;
 };
 
-void push(struct Node** head_ref, int new_data)
-{
+void push(struct Node* a, int new_data){
+        //allocation of memory
+        struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+        //substitute new data in the memory created
+        new_node->data = new_data;
+        //link this node in the front of already existing linked list
+        new_node->next = a;
+        //now, new linked list is the one with this node as well
+        a = new_node;
+	printf("6\n");
+}
+
+//void push(struct Node** head_ref, int new_data)
+//{
     /* allocate node */
-    struct Node* new_node
-        = (struct Node*)malloc(sizeof(struct Node));
+//    struct Node* new_node
+//        = (struct Node*)malloc(sizeof(struct Node));
 
     /* put in the data */
-    new_node->data = new_data;
+//    new_node->data = new_data;
 
     /* link the old list off the new node */
-    new_node->next = (*head_ref);
+//    new_node->next = (*head_ref);
 
     /* move the head to point to the new node */
-    (*head_ref) = new_node;
-}
+//    (*head_ref) = new_node;
+//}
+
 
 int getCount(struct Node* head)
 {
@@ -32,6 +45,7 @@ int getCount(struct Node* head)
 	current = current->next;
         count++;
     }
+    printf("5\n");
     return count;
 }
 /*
@@ -70,8 +84,9 @@ int GetNth(struct Node* a, int i){
                  return now->data;
                  }
                  now = now->next;
-         }
-         fprintf(stderr,"Over the limit");
+         printf("4\n");
+	 }
+         fprintf(stderr,"Over the limit\n");
          return 1;
  }
 int max(int x, int y){
@@ -95,6 +110,7 @@ void frre(struct Node* begin){
                  free(begin);
                  begin=now;
          }
+	 printf("3\n");
  }
 
 struct Node* add(struct Node* a, struct Node* b){
@@ -104,35 +120,38 @@ struct Node* add(struct Node* a, struct Node* b){
 
 	int i = 0;
 	int car=0;
-	push(&c, (GetNth(a, getCount(a)-1)+ GetNth(b, getCount(b)-1))% 1000);
+	push(c, (GetNth(a, getCount(a)-1)+ GetNth(b, getCount(b)-1))% 1000);
 	car = (GetNth(a, getCount(a)-1)+GetNth(b, getCount(b)-1))/1000;
 	
 	for (; i < max(getCount(a), getCount(b)); i++){
 		if(i < min(getCount(a), getCount(b))){
-			push(&c, ((GetNth(a, getCount(a)-2-i)+ getCount(b)-2-i)%1000 + car)%1000);
+			push(c, ((GetNth(a, getCount(a)-2-i)+ getCount(b)-2-i)%1000 + car)%1000);
 			car = ((GetNth(a, getCount(a)-2-i)+GetNth(b, getCount(b)-2-i))+car)/1000;
 		}else if(getCount(a)<= i < getCount(b)){
-			push(&c, ((GetNth(b, getCount(b)-2-i)+car)%1000));
+			push(c, ((GetNth(b, getCount(b)-2-i)+car)%1000));
 			car = ((GetNth(b, getCount(b)-2-i)+car)/1000);
 		}else{
-			push(&c, ((GetNth(a, getCount(a)-2-i)+car)%1000));
+			push(c, ((GetNth(a, getCount(a)-2-i)+car)%1000));
 			car = ((GetNth(a, getCount(a)-2-i)+car)/1000);
 		}
-	push(&c, car);
+	push(c, car);
+	printf("2\n");
 	}
 	return c;
 }
 int main(void){
-	struct Node* p;
+	printf("1\n");
+	struct Node* p = NULL;
 	push(p, 555);
 	push(p, 465);
 	push(p, 564);
 	push(p, 597);
-	struct Node* q;	
+	struct Node* q = NULL;	
 	push(q, 295);
 	push(q, 565);
 	push(q, 581);
-	struct Node *r = add(p, q);
+	struct Node *r = NULL;
+	r = add(p, q);
 
 	printf("%d/n", getCount(r));
 
@@ -145,6 +164,7 @@ int main(void){
 
 	frre(p);
 	frre(q);
+	printf("\nSuccess!!");
 	return 0;
 }
 
