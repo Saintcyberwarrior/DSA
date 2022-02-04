@@ -2,7 +2,6 @@
 
 void parse(char input[]);
 int converter(char);
-int power(int, int);
 int calcnumber(int a[],int j);
 
 int
@@ -104,12 +103,6 @@ converter(char c)
 	return -1;
 }
 
-int
-power(int a, int b){
-	if(b)
-		return 1;
-	return power(a,b-1)*a;
-}
 
 int
 calcnumber(int a[],int j){
