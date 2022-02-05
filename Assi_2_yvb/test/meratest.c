@@ -24,8 +24,10 @@ int main(){
 	push(&q, 295);
 	push(&q, 565);
 	push(&q, 581);
+	revpush(&q, 99);
+	revpush(&q, 99);
+	revpush(&q, 99);
 	struct Node *r = NULL;
-	printf("%d\n", getCount(p));
 	printf("%d\n", getCount(p));
 	printf("%d\n", getCount(q));
 	r = add(p, q);
@@ -36,6 +38,8 @@ int main(){
 	printf("%d\n", GetNth(r, 2));
 	printf("%d\n", GetNth(r, 3));
 	printf("%d\n", GetNth(r, 4));
+	printf("%d\n", GetNth(r, 5));
+	printf("%d\n", GetNth(r, 6));
 
 
 	frre(p);
@@ -61,8 +65,7 @@ void revpush(struct Node** a, int new_data){
 		return;
 	}
 	struct Node* temp = (*a);
-	int len_a = getCount((*a));
-	for(int i=1; temp;i++){
+	while(temp->next){
 		temp = temp->next;
 	}
 	temp->next = new_node;
@@ -128,7 +131,7 @@ struct Node* add(struct Node* a, struct Node* b){
 			push(&c, (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)%1000);
 			car = (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)/1000;
 		}else{
-			if(len_a < i && i < len_b){
+			if(len_b>=i){
 				push(&c, (GetNth(b, len_b-i) + car)%1000);
 				car = (GetNth(b, len_b-i) + car)/1000;
 			}else{
@@ -136,6 +139,8 @@ struct Node* add(struct Node* a, struct Node* b){
 				car = (GetNth(a, len_a-i) + car)/1000;
 			}
 		}
+		if(i!=max(len_a,len_b-1))
+			car = 0;
 	}
 	if(car)
 		push(&c, car);
