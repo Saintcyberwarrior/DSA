@@ -5,62 +5,62 @@ struct Node {
 	struct Node* next;
 };
 
-void push(struct Node** a, int new_data);
-void revpush(struct Node** a, int new_data);
+void fpush(struct Node** a, int new_data);
+void bpush(struct Node** a, int new_data);
 int getCount(struct Node* head);
 int GetNth(struct Node* a, int i);
 int max(int x, int y);
 int min(int x, int y);
 void frre(struct Node* begin);
 struct Node* add(struct Node* a, struct Node* b);
+struct Node* mul(struct Node* a, struct Node* b);
+void print(struct Node *temp);
 
 int main(){
 	struct Node* p = NULL;
-	push(&p, 555);
-	push(&p, 465);
-	push(&p, 564);
-	push(&p, 597);
+	fpush(&p, 999);
+	fpush(&p, 4);
+	fpush(&p, 6);
+	fpush(&p, 9);
 	struct Node* q = NULL;
-	push(&q, 295);
-	push(&q, 565);
-	push(&q, 581);
-	revpush(&q, 99);
-	revpush(&q, 99);
-	revpush(&q, 99);
-	struct Node *r = NULL;
-	printf("%d\n", getCount(p));
-	printf("%d\n", getCount(q));
-	r = add(p, q);
+	fpush(&q, 1);
+	struct Node *s = NULL;
+	s = add(q,p);
 
-	printf("%d\n", getCount(r));
-
-	printf("%d\n", GetNth(r, 1));
-	printf("%d\n", GetNth(r, 2));
-	printf("%d\n", GetNth(r, 3));
-	printf("%d\n", GetNth(r, 4));
-	printf("%d\n", GetNth(r, 5));
-	printf("%d\n", GetNth(r, 6));
-
+	print(p);
+	print(q);
+	print(s);
 
 	frre(p);
 	frre(q);
-	frre(r);
-	printf("\nSuccess!!\n");
+	frre(s);
 	return 0;
 }
 
-void push(struct Node** a, int new_data){
+void print(struct Node *temp){
+	while(temp){
+		if(!(temp->next)){
+			printf("%d$\n",temp->data);
+			return;
+		}
+		printf("%d,",temp->data);
+		temp = temp->next;
+	}
+}
+
+
+void fpush(struct Node** a, int new_data){
         struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
         new_node->data = new_data;
         new_node->next = (*a);
         (*a) = new_node;
 }
 
-void revpush(struct Node** a, int new_data){
+void bpush(struct Node** a, int new_data){
         struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
         new_node->data = new_data;
         new_node->next = NULL;
-	if((*a) == NULL){
+	if((*a)==NULL){
 		(*a) = new_node;
 		return;
 	}
@@ -128,22 +128,46 @@ struct Node* add(struct Node* a, struct Node* b){
 
 	for(int i = 0; i < max(len_a, len_b); i++){
 		if(i < min(len_a, len_b)){
-			push(&c, (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)%1000);
+			fpush(&c, (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)%1000);
 			car = (GetNth(a, len_a-i) + GetNth(b, len_b-i) + car)/1000;
 		}else{
-			if(len_b>=i){
-				push(&c, (GetNth(b, len_b-i) + car)%1000);
+			if(len_b>i){
+				fpush(&c, (GetNth(b, len_b-i) + car)%1000);
 				car = (GetNth(b, len_b-i) + car)/1000;
 			}else{
-				push(&c, (GetNth(a, len_a-i) + car)%1000);
+				fpush(&c, (GetNth(a, len_a-i) + car)%1000);
 				car = (GetNth(a, len_a-i) + car)/1000;
 			}
 		}
-		if(i!=max(len_a,len_b-1))
-			car = 0;
 	}
 	if(car)
-		push(&c, car);
+		fpush(&c, car);
+	return c;
+}
+
+struct Node* mul(struct Node* a, struct Node* b){
+	int len_a = getCount(a);
+	int len_b = getCount(b);
+	struct Node* c = NULL;
+
+	int car = 0;
+
+	for(int i = 0; i < max(len_a, len_b); i++){
+		if(i < min(len_a, len_b)){
+			fpush(&c, (GetNth(a, len_a-i) * GetNth(b, len_b-i) + car)%1000);
+			car = (GetNth(a, len_a-i) * GetNth(b, len_b-i) + car)/1000;
+		}else{
+			if(len_b>=i){
+				fpush(&c, (GetNth(b, len_b-i) + car)%1000);
+				car = (GetNth(b, len_b-i) + car)/1000;
+			}else{
+				fpush(&c, (GetNth(a, len_a-i) + car)%1000);
+				car = (GetNth(a, len_a-i) + car)/1000;
+			}
+		}
+	}
+	if(car)
+		fpush(&c, car);
 	return c;
 }
 

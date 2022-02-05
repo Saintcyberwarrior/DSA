@@ -37,11 +37,24 @@ int len(struct Node* a){
 	return count;
 }
 
+
+int max(a, b){
+	if(a>b)
+		return a;
+		return b;
+}
+
+int min(a,b){
+	if(a<b)
+		return a;
+		return b;
+}
+
 int geti(struct Node** b, int i){
 	struct Node * a = (*b);
 	int inf= 9999;
 	int count = 1;
-	if(i>len2(a)) return gh_kha_lo;
+	if(i>len(a)) return gh_kha_lo;
 	for(; i != count; count++){
 		a = a->next;
 	}
@@ -51,14 +64,14 @@ int geti(struct Node** b, int i){
 
 int add(struct Node* a, struct Node* b){
 	int count = 0;
-	len_a = len(a);
-	len_b = len(b);
+	int len_a = len(a);
+	int len_b = len(b);
 	
 	int car = 0;
 	if (count < min(len_a, len_b)){
 	
 	}
-
+	return 
 }
 
 int main(void){
@@ -70,9 +83,9 @@ int main(void){
 	push(&p, 3);
 	push(&p, 2);
 
-	printf("%d\n", len(&p));
+//	printf("%d\n", len(&p));
 //	printf("%d\n", len2(p));
-	printf("%d\n", len(&p));
+//	printf("%d\n", len(&p));
 	printf("%d\n", geti(&p, 1));
 	printf("%d\n", geti(&p, 2));
 	printf("%d\n", geti(&p, 3));
