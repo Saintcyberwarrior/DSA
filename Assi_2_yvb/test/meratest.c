@@ -6,6 +6,7 @@ struct Node {
 };
 
 void push(struct Node** a, int new_data);
+void revpush(struct Node** a, int new_data);
 int getCount(struct Node* head);
 int GetNth(struct Node* a, int i);
 int max(int x, int y);
@@ -51,7 +52,21 @@ void push(struct Node** a, int new_data){
         (*a) = new_node;
 }
 
-
+void revpush(struct Node** a, int new_data){
+        struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+        new_node->data = new_data;
+        new_node->next = NULL;
+	if((*a) == NULL){
+		(*a) = new_node;
+		return;
+	}
+	struct Node* temp = (*a);
+	int len_a = getCount((*a));
+	for(int i=1; temp;i++){
+		temp = temp->next;
+	}
+	temp->next = new_node;
+}
 
 int getCount(struct Node* head){
 	int count = 1;  // Initialize count
@@ -99,8 +114,7 @@ void frre(struct Node* begin){
                  free(begin);
                  begin=now;
          }
- }
-
+}
 
 struct Node* add(struct Node* a, struct Node* b){
 	int len_a = getCount(a);
