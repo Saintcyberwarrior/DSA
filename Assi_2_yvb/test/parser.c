@@ -1,14 +1,6 @@
-#include <stdio.h>
-
 void parse(char input[]);
 int converter(char);
 int calcnumber(int a[],int j);
-
-int
-main(){
-	parse("22,324,444,234$ + 234,213,342$ * 13,21,22,123$");
-	return 0;
-}
 
 void
 parse(char input[]){
@@ -22,6 +14,9 @@ parse(char input[]){
 	char previous_symbol = 0;
 
 	printf("%s\n",input);
+	
+	if(input[0]=='=')
+		exit(0);
 
 	while(input[i]){
 		t[j] = converter(input[i]);

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "parser.c"
+
 struct Node {
 	int data;
 	struct Node* next;
@@ -144,7 +146,7 @@ struct Node* add(struct Node* a, struct Node* b){
 		fpush(&c, car);
 	return c;
 }
-
+/*
 struct Node* mul(struct Node* a, struct Node* b){
 	int len_a = getCount(a);
 	int len_b = getCount(b);
@@ -170,4 +172,64 @@ struct Node* mul(struct Node* a, struct Node* b){
 		fpush(&c, car);
 	return c;
 }
+*/
 
+struct Node* mul(struct Node* a, struct Node* b){
+        int len_a = getCount(a);
+        int len_b = getCount(b);
+        t = struct Node*(calloc(min(len_a,len_b),sizeof(struct Node)));
+	struct Node *f = NULL;
+        if(len_a<len_b){
+                for (int i =0; i < len_a; i++){
+                        int car =0;
+
+                        for(int j= 0; j<len_b; j++){
+                                fpush(&&t[i], ((GetNth(a, len_a-i)*GetNth(b, len_b-j))+car)%1000);
+                                car = ((GetNth(a, len_a-i) * GetNth(b, len_b-j)) + car)/1000;
+                        }
+                        for (int count=0; count<i; count++){
+                                bpush(&&t[count], 000);
+                        }
+
+
+                        if(car)
+                                fpush(&&t[i], car);
+                }
+
+                for(int p=1; p< len_a; p++){
+                	f = add(&t[0], &t[p]);
+                        &t[0] = f;
+                        frre(&t[p]);
+                        frre(f);
+                }
+
+                return &t[0];
+        }
+        else{
+                for (int i =0; i < len_b; i++){
+                        int car =0;
+
+                        for(int j= 0; j<len_a; j++){
+                                fpush(&&t[i], ((GetNth(b, len_b-i)*GetNth(a, len_a-j))+car)%1000);
+                                car = ((GetNth(b, len_b-i) * GetNth(a, len_a-j)) + car)/1000;
+                        }
+                        for (int count=0; count<i; count++){
+                                bpush(&&t[count], 000);
+                        }
+
+
+                        if(car)
+                                fpush(&&t[i], car);
+                }
+
+                for(int p=1; p< len_b; p++){
+                        f = add(&t[0], &t[p]);
+                        &t[0] = f;
+                        frre(&t[p]);
+                        frre(f);
+                }
+
+                return &t[0];
+
+        }
+}
