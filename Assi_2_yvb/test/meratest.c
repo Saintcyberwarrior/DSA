@@ -21,10 +21,9 @@ void print(struct Node *temp);
 int main(){
 	struct Node* p = NULL;
 	fpush(&p, 999);
-	fpush(&p, 6);
-	fpush(&p, 9);
+	fpush(&p, 996);
 	struct Node* q = NULL;
-	fpush(&q, 1);
+	fpush(&q, 111);
 	fpush(&q, 999);
 	struct Node *s = NULL;
 	struct Node *r = NULL;
