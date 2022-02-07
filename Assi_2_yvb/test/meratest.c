@@ -21,20 +21,23 @@ void print(struct Node *temp);
 int main(){
 	struct Node* p = NULL;
 	fpush(&p, 999);
-	fpush(&p, 4);
 	fpush(&p, 6);
 	fpush(&p, 9);
 	struct Node* q = NULL;
 	fpush(&q, 1);
+	fpush(&q, 999);
 	struct Node *s = NULL;
+	struct Node *r = NULL;
 	s = add(q,p);
-
+	r = mul(p,q);
 	print(p);
 	print(q);
+	print(r);
 	print(s);
 
 	frre(p);
 	frre(q);
+	frre(r);
 	frre(s);
 	return 0;
 }
@@ -174,6 +177,7 @@ struct Node* mul(struct Node* a, struct Node* b){
 }
 */
 
+/*
 struct Node* mul(struct Node* a, struct Node* b){
         int len_a = getCount(a);
         int len_b = getCount(b);
@@ -233,3 +237,79 @@ struct Node* mul(struct Node* a, struct Node* b){
 
         }
 }
+*/
+
+
+struct Node* mul(struct Node* a, struct Node *b){
+        int len_a = getCount(a);
+        int len_b = getCount(b);
+
+        struct Node* t_0 = NULL;
+        struct Node* t_1 = NULL;
+
+        if(len_a<len_b){
+                int car = 0;
+
+                for(int j=0; j<len_b;j++){
+                        fpush(&t_0,((GetNth(a, len_a)*GetNth(b, len_b-j))+car)%1000);
+                        car = ((GetNth(a, len_a) * GetNth(b, len_b-j)) + car)/1000;
+                }
+                if(car)
+                        fpush(&t_0, car);
+
+                for (int i =1; i < len_a; i++){
+                        int car =0;
+
+                        for(int j= 0; j<len_b; j++){
+                                fpush(&t_1, ((GetNth(a, len_a-i)*GetNth(b, len_b-j))+car)%1000);
+                                car = ((GetNth(a, len_a-i) * GetNth(b, len_b-j)) + car)/1000;
+                        }
+                        for (int count=1; count<i; count++){
+                                bpush(&t_1, 000);
+                        }
+
+
+                        if(car)
+                                fpush(&t_1, car);
+
+                        t_0 = add(t_0, t_1);
+                 }
+
+                 frre(t_1);
+
+                return t_0;
+        }
+        else{
+                int car = 0;
+
+                for(int j=0; j<len_a;j++){
+                        fpush(&t_0,((GetNth(b, len_b)*GetNth(a, len_a-j))+car)%1000);
+                        car = ((GetNth(b, len_b) * GetNth(a, len_a-j)) + car)/1000;
+                }
+                if(car)
+                        fpush(&t_0, car);
+
+                for (int i =1; i < len_b; i++){
+                        int car =0;
+
+                        for(int j= 0; j<len_a; j++){
+                                fpush(&t_1, ((GetNth(b, len_b-i)*GetNth(a, len_a-j))+car)%1000);
+                                car = ((GetNth(b, len_b-i) * GetNth(a, len_a-j)) + car)/1000;
+                        }
+                        for (int count=1; count<i; count++){
+                                bpush(&t_1, 000);
+                        }
+
+
+                        if(car)
+                                fpush(&t_1, car);
+
+                        t_0 = add(t_0, t_1);
+                 }
+
+                 frre(t_1);
+		
+		return t_0;
+	}
+}
+

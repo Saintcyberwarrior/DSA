@@ -1,9 +1,9 @@
 struct Node* mul(struct Node* a, struct Node* b){
 	int len_a = getCount(a);
 	int len_b = getCount(b);
-	for (int h =0; h<min(len_a, len_b); h++){
-	struct Node* t_h = NULL;
-	}
+//	for (int h =0; h<min(len_a, len_b); h++){
+//	struct Node* t_h = NULL;
+//	}
 	struct Node * t = NULL;
 	
 	if(len_a<len_b){
