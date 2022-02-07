@@ -25,11 +25,12 @@ int main(){
 	fpush(&p, 9);
 	struct Node* q = NULL;
 	fpush(&q, 1);
-	fpush(&q, 999);
+	fpush(&q, 1);
+	fpush(&q, 1);
 	struct Node *s = NULL;
 	struct Node *r = NULL;
 	s = add(q,p);
-	r = mul(p,q);
+	r = mul(q,p);
 	print(p);
 	print(q);
 	print(r);
@@ -246,6 +247,7 @@ struct Node* mul(struct Node* a, struct Node *b){
 
         struct Node* t_0 = NULL;
         struct Node* t_1 = NULL;
+        struct Node* temp = NULL;
 
         if(len_a<len_b){
                 int car = 0;
@@ -264,15 +266,19 @@ struct Node* mul(struct Node* a, struct Node *b){
                                 fpush(&t_1, ((GetNth(a, len_a-i)*GetNth(b, len_b-j))+car)%1000);
                                 car = ((GetNth(a, len_a-i) * GetNth(b, len_b-j)) + car)/1000;
                         }
-                        for (int count=1; count<i; count++){
-                                bpush(&t_1, 000);
+                        for (int count=1; count<=i; count++){
+                                bpush(&t_1, 0);
                         }
 
 
                         if(car)
                                 fpush(&t_1, car);
 
+			temp = t_0;
                         t_0 = add(t_0, t_1);
+			free(temp);
+			frre(t_1);
+			t_1 = NULL;
                  }
 
                  frre(t_1);
@@ -296,19 +302,23 @@ struct Node* mul(struct Node* a, struct Node *b){
                                 fpush(&t_1, ((GetNth(b, len_b-i)*GetNth(a, len_a-j))+car)%1000);
                                 car = ((GetNth(b, len_b-i) * GetNth(a, len_a-j)) + car)/1000;
                         }
-                        for (int count=1; count<i; count++){
-                                bpush(&t_1, 000);
+                        for (int count=1; count<=i; count++){
+                                bpush(&t_1, 0);
                         }
 
 
                         if(car)
                                 fpush(&t_1, car);
 
+			temp = t_0;
                         t_0 = add(t_0, t_1);
+			frre(temp);
+			frre(t_1);
+			t_1 = NULL;
                  }
 
-                 frre(t_1);
-		
+                 //frre(t_1);
+
 		return t_0;
 	}
 }
