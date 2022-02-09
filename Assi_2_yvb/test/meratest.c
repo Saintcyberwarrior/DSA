@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "parser.c"
 
 struct Node {
 	int data;
@@ -17,9 +16,18 @@ void frre(struct Node* begin);
 struct Node* add(struct Node* a, struct Node* b);
 struct Node* mul(struct Node* a, struct Node* b);
 void print(struct Node *temp);
+struct Node* parse(char input[]);
+int converter(char);
+int calcnumber(int a[],int j);
 
 int main(){
-	struct Node* p = NULL;
+	char input[80];
+	scanf("%s\n", input);
+	struct Node* res = NULL;
+	res = parse(input);
+	print(res);
+	frre(res);
+/*	struct Node* p = NULL;
 	fpush(&p, 999);
 	fpush(&p, 996);
 	struct Node* q = NULL;
@@ -38,6 +46,8 @@ int main(){
 	frre(q);
 	frre(r);
 	frre(s);
+*/
+	
 	return 0;
 }
 
@@ -148,95 +158,6 @@ struct Node* add(struct Node* a, struct Node* b){
 		fpush(&c, car);
 	return c;
 }
-/*
-struct Node* mul(struct Node* a, struct Node* b){
-	int len_a = getCount(a);
-	int len_b = getCount(b);
-	struct Node* c = NULL;
-
-	int car = 0;
-
-	for(int i = 0; i < max(len_a, len_b); i++){
-		if(i < min(len_a, len_b)){
-			fpush(&c, (GetNth(a, len_a-i) * GetNth(b, len_b-i) + car)%1000);
-			car = (GetNth(a, len_a-i) * GetNth(b, len_b-i) + car)/1000;
-		}else{
-			if(len_b>=i){
-				fpush(&c, (GetNth(b, len_b-i) + car)%1000);
-				car = (GetNth(b, len_b-i) + car)/1000;
-			}else{
-				fpush(&c, (GetNth(a, len_a-i) + car)%1000);
-				car = (GetNth(a, len_a-i) + car)/1000;
-			}
-		}
-	}
-	if(car)
-		fpush(&c, car);
-	return c;
-}
-*/
-
-/*
-struct Node* mul(struct Node* a, struct Node* b){
-        int len_a = getCount(a);
-        int len_b = getCount(b);
-        t = struct Node*(calloc(min(len_a,len_b),sizeof(struct Node)));
-	struct Node *f = NULL;
-        if(len_a<len_b){
-                for (int i =0; i < len_a; i++){
-                        int car =0;
-
-                        for(int j= 0; j<len_b; j++){
-                                fpush(&&t[i], ((GetNth(a, len_a-i)*GetNth(b, len_b-j))+car)%1000);
-                                car = ((GetNth(a, len_a-i) * GetNth(b, len_b-j)) + car)/1000;
-                        }
-                        for (int count=0; count<i; count++){
-                                bpush(&&t[count], 000);
-                        }
-
-
-                        if(car)
-                                fpush(&&t[i], car);
-                }
-
-                for(int p=1; p< len_a; p++){
-                	f = add(&t[0], &t[p]);
-                        &t[0] = f;
-                        frre(&t[p]);
-                        frre(f);
-                }
-
-                return &t[0];
-        }
-        else{
-                for (int i =0; i < len_b; i++){
-                        int car =0;
-
-                        for(int j= 0; j<len_a; j++){
-                                fpush(&&t[i], ((GetNth(b, len_b-i)*GetNth(a, len_a-j))+car)%1000);
-                                car = ((GetNth(b, len_b-i) * GetNth(a, len_a-j)) + car)/1000;
-                        }
-                        for (int count=0; count<i; count++){
-                                bpush(&&t[count], 000);
-                        }
-
-
-                        if(car)
-                                fpush(&&t[i], car);
-                }
-
-                for(int p=1; p< len_b; p++){
-                        f = add(&t[0], &t[p]);
-                        &t[0] = f;
-                        frre(&t[p]);
-                        frre(f);
-                }
-
-                return &t[0];
-
-        }
-}
-*/
 
 
 struct Node* mul(struct Node* a, struct Node *b){
@@ -311,4 +232,127 @@ struct Node* mul(struct Node* a, struct Node *b){
 		return t_0;
 	}
 }
+
+
+struct Node* parse(char input[]){
+
+        int i = 0;
+        int j = 0;
+
+        int t[6] = { -1,-1,-1,-1,-1,-1};
+        int buf1;
+        int buf2;
+
+	struct Node* res = NULL;
+	struct Node* temp = NULL; 
+        char previous_symbol = 0;
+
+        printf("%s\n",input);
+
+        if(input[0]=='=')
+                exit(0);
+
+        while(input[i]){
+                t[j] = converter(input[i]);
+                printf("%d",t[j]);
+		
+
+		if(input[i] == '='){
+			frre(temp);
+			return res;
+		}
+                
+		if(t[j] != -1){
+                        i++;
+                        j++;
+                        if(j>3){
+                                printf("\n\t Invalid Input \t \n");
+                                return NULL;
+                        }
+                        continue;
+                }
+                if(input[i] == ','){
+                        printf("\n%d\n",calcnumber(t,j-1));
+                        j = 0;
+                        bpush(&temp, calcnumber(t, j-1));
+//			printf("Call the push function\n");
+                }
+                if(input[i] == '$'){
+                        printf("\n%d\n",calcnumber(t,j-1));
+                        j = 0;
+//                        printf("Call the push function for the last time\n")    ;
+                        bpush(&temp, calcnumber(t, j-1));
+//			printf("One linked list done\n");
+			
+                        if(previous_symbol){
+
+				if(previous_symbol=='+'){
+					res = add(res, temp);
+				}else{
+					if(previous_symbol=='*'){
+						res = mul(res, temp);
+					}
+				}
+                        }else{
+				res = temp;
+			}
+                }
+
+                if(input[i] == '+')
+                        previous_symbol = '+';
+                if(input[i] == '*')
+                        previous_symbol = '*';
+//                if(input[i] == '/')
+//                        previous_symbol = '/';
+//                if(input[i] == '-')
+//                        previous_symbol = '-';
+
+
+                i++;
+        }
+
+
+
+
+
+}
+
+int converter(char c)
+{
+        switch(c){
+                case '0':
+                        return 0;
+                case '1':
+                        return 1;
+                case '2':
+                        return 2;
+                case '3':
+                        return 3;
+                case '4':
+                        return 4;
+                case '5':
+                        return 5;
+                case '6':
+                        return 6;
+                case '7':
+                        return 7;
+                case '8':
+                        return 8;
+                case '9':
+                        return 9;
+                default:
+                        return -1;
+        }
+        return -1;
+}
+
+
+int calcnumber(int a[],int j){
+        if(j == 0)
+                return a[0];
+        if(j == 1)
+                return a[0]*10 + a[1];
+        return a[0]*100 + a[1]*10 + a[2];
+}
+
 
