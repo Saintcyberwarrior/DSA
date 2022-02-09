@@ -1,6 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 void parse(char input[]);
 int converter(char);
 int calcnumber(int a[],int j);
+
+int
+main()
+{
+	char input[800];
+        int i = 0;
+        while((input[i] = getchar())){
+                if(input[i] == '=')
+                        break;
+                i++;
+                if(i==799){
+                        printf("String too long\n");
+                        return -1;
+                }
+        }
+        parse(input);
+}
 
 void
 parse(char input[]){
@@ -20,7 +40,6 @@ parse(char input[]){
 
 	while(input[i]){
 		t[j] = converter(input[i]);
-		printf("%d",t[j]);
 		if(t[j] != -1){
 			i++;
 			j++;
@@ -33,13 +52,10 @@ parse(char input[]){
 		if(input[i] == ','){
 			printf("\n%d\n",calcnumber(t,j-1));
 			j = 0;
-			printf("Call the push function\n");
 		}
 		if(input[i] == '$'){
 			printf("\n%d\n",calcnumber(t,j-1));
 			j = 0;
-			printf("Call the push function for the last time\n");
-			printf("One linked list done\n");
 
 			if(previous_symbol){
 				printf(

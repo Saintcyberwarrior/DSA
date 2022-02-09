@@ -21,8 +21,18 @@ int converter(char);
 int calcnumber(int a[],int j);
 
 int main(){
-	char input[80];
-	scanf("%s\n", input);
+	printf("Enter an empty = to quit the program\n");
+	char input[800];
+	int i = 0;
+	while((input[i] = getchar())){
+		if(input[i] == '=')
+			break;
+		i++;
+		if(i==799){
+			printf("String too long\n");
+			return -1;
+		}
+	}
 	struct Node* res = NULL;
 	res = parse(input);
 	print(res);
@@ -138,6 +148,11 @@ struct Node* add(struct Node* a, struct Node* b){
 	int len_b = getCount(b);
 	struct Node* c = NULL;
 
+	if(!a)
+		return b;
+	if(!b)
+		return a;
+
 	int car = 0;
 
 	for(int i = 0; i < max(len_a, len_b); i++){
@@ -196,7 +211,7 @@ struct Node* mul(struct Node* a, struct Node *b){
                  }
 
                  frre(t_1);
-
+		
                 return t_0;
         }
         else{
@@ -229,6 +244,7 @@ struct Node* mul(struct Node* a, struct Node *b){
 
                  frre(t_1);
 		
+		
 		return t_0;
 	}
 }
@@ -240,21 +256,16 @@ struct Node* parse(char input[]){
         int j = 0;
 
         int t[6] = { -1,-1,-1,-1,-1,-1};
-        int buf1;
-        int buf2;
 
 	struct Node* res = NULL;
 	struct Node* temp = NULL; 
         char previous_symbol = 0;
 
-        printf("%s\n",input);
-
         if(input[0]=='=')
                 exit(0);
 
         while(input[i]){
-                t[j] = converter(input[i]);
-                printf("%d",t[j]);
+              	t[j] = converter(input[i]);
 		
 
 		if(input[i] == '='){
@@ -267,54 +278,48 @@ struct Node* parse(char input[]){
                         j++;
                         if(j>3){
                                 printf("\n\t Invalid Input \t \n");
-                                return NULL;
+				free(res);
+				free(temp);
+				main();
                         }
-                        continue;
+			continue;
                 }
                 if(input[i] == ','){
-                        printf("\n%d\n",calcnumber(t,j-1));
-                        j = 0;
                         bpush(&temp, calcnumber(t, j-1));
-//			printf("Call the push function\n");
+                        j = 0;
                 }
                 if(input[i] == '$'){
-                        printf("\n%d\n",calcnumber(t,j-1));
+			bpush(&temp, calcnumber(t, j-1));
                         j = 0;
-//                        printf("Call the push function for the last time\n")    ;
-                        bpush(&temp, calcnumber(t, j-1));
-//			printf("One linked list done\n");
 			
                         if(previous_symbol){
 
 				if(previous_symbol=='+'){
 					res = add(res, temp);
+					previous_symbol = 0;
 				}else{
 					if(previous_symbol=='*'){
 						res = mul(res, temp);
+						previous_symbol = 0;
 					}
 				}
                         }else{
+			
 				res = temp;
+				temp = NULL;
 			}
                 }
 
-                if(input[i] == '+')
+                if(input[i] == '+'){
                         previous_symbol = '+';
-                if(input[i] == '*')
+		}
+                if(input[i] == '*'){
                         previous_symbol = '*';
-//                if(input[i] == '/')
-//                        previous_symbol = '/';
-//                if(input[i] == '-')
-//                        previous_symbol = '-';
-
+		}
 
                 i++;
         }
-
-
-
-
-
+	return res;
 }
 
 int converter(char c)
