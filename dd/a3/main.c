@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+/*
+	USAGE::
+		bst_insert(pointer to node, word to be inserted,
+				line number of the word);
 
+
+
+*/
 typedef struct
 ll
 {
@@ -13,9 +20,27 @@ bst
 {
 	int index;
 	char word[21];
-	struct ll *lineNum;
+	struct ll *linenum;
 	struct bst *left, *right;
 };
+void
+ll_insert(ll *lnode, int lnum)
+{
+	if(!(*lnode)){
+		lnode = malloc(sizeof(ll));
+
+
+void
+bst_insert(bst *bstnode, char word[], int lnum){
+	int len = strlen(word);
+	if(!len)
+		return;
+	int index = 0;
+	if(!(*bstnode)){
+		bstnode = malloc(sizeof(bst));
+		strncpy(bstnode->word,word);
+		bstnode->left = NULL;
+		bstnode->right = NULL;
 
 int
 main(int argc, char *argv[]){
@@ -43,14 +68,26 @@ main(int argc, char *argv[]){
 	while((ch = fgetc(in)) && ch!=EOF){
 		if(ch == ' ' || ch =='\n' || ch == '\t'){
 			if(strlen(buff)){
-				buff(
+				buff[buffCount] = '\0';
+				//
+				//
+				//
+				// Add buff to the tree
+				//
+				//
+				printf("%s",buff);
+			}
+			printf("\n");
+
 			buffCount = 0;
 			continue;
 		}
 		else{
+			buff[buffCount] = ch;
+			buffCount ++;
+		}
 
 
-		fputc(ch,stdout);
 	}
 
 	fclose(in);
