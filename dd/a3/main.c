@@ -31,7 +31,7 @@ ll_insert(ll *lnode, int lnum)
 		lnode->data = lnum;
 		lnode->next = NULL;
 	}
-	ll_insert(lnode->next,llnum);
+	ll_insert(lnode->next,lnum);
 }
 
 
