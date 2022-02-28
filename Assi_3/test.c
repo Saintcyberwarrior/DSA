@@ -29,6 +29,11 @@ void swap(char *one, char *two);
 
 int main(int argc, char *argv[]){
 	FILE *fp;
+	fp = fopen("", "r");
+	if (fp == NULL){
+		fprintf(stderr, "Cannot open File\n");
+		exit(1);
+	}
 
 
 }
