@@ -28,6 +28,11 @@ ll_insert(ll *lnode, int lnum)
 {
 	if(!(*lnode)){
 		lnode = malloc(sizeof(ll));
+		lnode->data = lnum;
+		lnode->next = NULL;
+	}
+	ll_insert(lnode->next,llnum);
+}
 
 
 void
@@ -41,6 +46,9 @@ bst_insert(bst *bstnode, char word[], int lnum){
 		strncpy(bstnode->word,word);
 		bstnode->left = NULL;
 		bstnode->right = NULL;
+		ll_insert(bstnode->linenum, lnum);
+	}
+}
 
 int
 main(int argc, char *argv[]){
