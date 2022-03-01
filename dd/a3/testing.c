@@ -82,9 +82,10 @@ bstprint(bst *bstn){
 		return;
 	}
 	bstprint(bstn->left);
-	printf(" %s\n",bstn->word);
+	printf(" %s:",bstn->word);
 	llprint(bstn->linenum);
 	printf("\n");
+	bstprint(bstn->right);
 	return;
 }
 
@@ -120,9 +121,9 @@ freebst(bst *bstn){
 int
 main( int argc, char *argv[]){
 	bst *one = NULL;
+	bstinsert(&one,"hello",1);
+	bstinsert(&one,"hello",1);
 	bstinsert(&one,"ello",1);
-	bstinsert(&one,"hello",1);
-	bstinsert(&one,"hello",1);
 	bstinsert(&one,"hlo",1);
 	bstprint(one);
 	freebst(one);
