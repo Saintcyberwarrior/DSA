@@ -1,8 +1,8 @@
 void update_node(struct bst_node * a, int new_index, char word[21], struct lst_node* new_lst){
 	struct bst_node*b = NULL;
-	b = search(a, word);
+	b = search_node(a, word);
 	b->index = new_index;
-	b->list = new_lst;
+
 }
 
 int search_node(struct bst_node*a, char word[21]){
