@@ -10,43 +10,43 @@
 
 */
 typedef struct
-ll
+llnode
 {
 	int data;
-	struct ll *next;
-};
+	struct llnode *next;
+} ll;
 typedef struct
-bst
+bstnode
 {
 	int index;
 	char word[21];
-	struct ll *linenum;
-	struct bst *left, *right;
-};
+	struct llnode *linenum;
+	struct bstnode *left, *right;
+} bst;
 void
-ll_insert(ll *lnode, int lnum)
+ll_insert(ll *lln, int lnum)
 {
-	if(!(*lnode)){
-		lnode = malloc(sizeof(ll));
-		lnode->data = lnum;
-		lnode->next = NULL;
+	if(lln==NULL){
+		lln = malloc(sizeof(ll));
+		lln->data = lnum;
+		lln->next = NULL;
 	}
-	ll_insert(lnode->next,lnum);
+	ll_insert(lln->next,lnum);
 }
 
 
 void
-bst_insert(bst *bstnode, char word[], int lnum){
+bst_insert(bst *bstn, char word[], int lnum){
 	int len = strlen(word);
 	if(!len)
 		return;
 	int index = 0;
-	if(!(*bstnode)){
-		bstnode = malloc(sizeof(bst));
-		strncpy(bstnode->word,word);
-		bstnode->left = NULL;
-		bstnode->right = NULL;
-		ll_insert(bstnode->linenum, lnum);
+	if(bstn==NULL){
+		bstn = malloc(sizeof(bst));
+		strncpy(bstn->word,word,21);
+		bstn->left = NULL;
+		bstn->right = NULL;
+		ll_insert(bstn->linenum, lnum);
 	}
 }
 
@@ -64,7 +64,7 @@ main(int argc, char *argv[]){
 	in = fopen(argv[1],"r");
 
 	if(!in){
-		fprintf(stderr," Cannot open file!!\n");
+		fprintf(stderr," Cannot open file!!!\n");
 		return 1;
 	}
 
