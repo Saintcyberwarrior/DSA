@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define EndOfWord word[i] == ',' || word[i] == '\n' ||word[i] == ';'|| word[i] == ' ' \
-			      ||word[i] == '.'|| word[i] =='!' || word[i] == '?' \
+			      ||word[i] == '.'|| word[i] =='!' || word[i] == '?'
 //			      || word[i][j] == '''|| word[i][j] == '"'
 
 struct lst_node{
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 	struct bst_node* Ultimate_tree = NULL;
 
 	Ultimate_tree = reader(fp);
-	tree_inorder_traverse(Ultimate_tree);
+    tree_inorder_traverse(Ultimate_tree);
 	return 0;
 }
 
@@ -173,8 +173,8 @@ struct bst_node* search_node(struct bst_node *a, char word[]){
 #include <string.h>
 
 #define EndOfWord word[i] == ',' || word[i] == '\n' ||word[i] == ';'|| word[i] == ' ' \
-			      ||word[i] == '.'|| word[i] =='!' || word[i] == '?' 
-			      || word[i] == '''|| word[i] == '"'   
+			      ||word[i] == '.'|| word[i] =='!' || word[i] == '?'
+			      || word[i] == '''|| word[i] == '"'
 
 */
 /*
@@ -357,7 +357,9 @@ struct bst_node* reader(FILE *file){
 
 	while(chr != EOF){
 		if(chr = '\n'){
-			line_no = line_no+1;
+            bst_add(Ultimate_tree, NULL, word, line_no);
+            memset(word, 0, 21);
+            line_no = line_no+1;
 		}
 
 		if(chr == EndOfWord){
@@ -378,3 +380,4 @@ struct bst_node* reader(FILE *file){
 
 	return Ultimate_tree;
 }
+
