@@ -172,11 +172,23 @@ delete_node(bst *bstn, char word[]){
 			strcpy(bstn->word, temp->word);
 			bstn->left = delete_node(bstn->left, temp->word);
 		}else if(bstn->right == NULL){
-			bstn = bstn->left;
-			freebst(bstn->left);
+			bst * temp = bstn->left;
+			strcpy(bstn->word, temp->word);
+			bstn->linenum = temp->linenum;
+			bstn->index = temp->index;
+			bstn->left= temp->left;
+			temp->left = NULL;
+			free(temp->linenum);
+			free(temp);
 		}else if(bstn->left == NULL){
-			bstn = bstn->right;
-			freebst(bstn->right);
+			bst * temp1 = bstn->right;
+			strcpy(bstn->word, temp1->word);
+			bstn->linenum = temp1->linenum;
+			bstn->index = temp1->index;
+			bstn->right= temp1->right;
+			temp1->right = NULL;
+			free(temp1->linenum);
+			free(temp1);
 		}
 
 	}
